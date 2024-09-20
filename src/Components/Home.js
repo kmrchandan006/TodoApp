@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../Config/Config';
 import { Modal } from './Modal';
-import { TodoItem } from './TodoItem';
+import DragDropContext from './DragDropContext';
 import { useHistory } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -21,7 +21,7 @@ export const Home = () => {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-                return db.collection('todos of ' + user.uid).onSnapshot(snapshot => {
+                return db.collection('todos of ' + user.uid).orderBy('order').onSnapshot(snapshot => {
                     const fetchedTodos = snapshot.docs.map(doc => ({
                         id: doc.id,
                         ...doc.data()
@@ -29,7 +29,7 @@ export const Home = () => {
                     setTodos(fetchedTodos);
                 });
             } else {
-                console.log('User not signed in');
+                alert('User not signed in');
                 history.push('/login');
             }
         });
@@ -41,11 +41,13 @@ export const Home = () => {
         if (taskTitle && taskDescription && taskDueDate && taskPriority) {
             auth.onAuthStateChanged(user => {
                 if (user) {
+                    const newOrder = todos.length; // Setting order to be the last item
                     db.collection('todos of ' + user.uid).add({
                         title: taskTitle,
                         description: taskDescription,
                         dueDate: taskDueDate,
-                        priority: taskPriority
+                        priority: taskPriority,
+                        order: newOrder
                     });
                     setTaskTitle('');
                     setTaskDescription('');
@@ -84,7 +86,7 @@ export const Home = () => {
     const handleLogout = () => {
         auth.signOut()
             .then(() => {
-                console.log('User signed out');
+                alert('User signed out');
                 history.push('/login');
             })
             .catch((error) => {
@@ -132,11 +134,13 @@ export const Home = () => {
 
                 {todoError && <p className="text-red-500 mt-4">{todoError}</p>}
 
-                <div className="todos-container mt-6 w-full max-w-md">
-                    {todos.map((task, index) => (
-                        <TodoItem key={task.id} task={task} index={index} deleteTodo={deleteTodo} openEditModal={openEditModal} />
-                    ))}
-                </div>
+                {/* Render DragDropContext for reordering tasks */}
+                <DragDropContext 
+                    todos={todos} 
+                    setTodos={setTodos} 
+                    deleteTodo={deleteTodo} 
+                    openEditModal={openEditModal} 
+                />
 
                 {isEditModalOpen && (
                     <Modal
