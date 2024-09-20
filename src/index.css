@@ -6,6 +6,11 @@
 
 
 
+
+
+
+/* 
+
 *{
     margin: 0;
     padding: 0;
@@ -15,8 +20,7 @@ div.wrapper{
     overflow-x: hidden;
     overflow-y: auto;
 }
-
-/* header */
+ 
 .header-box{
     width: 100%;
     height: auto;
@@ -102,8 +106,7 @@ div.wrapper{
 .date-section span{
     margin: 4px;
 }
-
-/* signup */
+ 
 @media(max-width: 539px){
     .mybtn2{
         width: 100%;
@@ -121,8 +124,7 @@ div.wrapper{
     color: #fff;
     letter-spacing: 0.09em;
 }
-
-/* todo */
+ 
 .todo{
     background-color: #e4e4e4;
     font-weight: 600;
@@ -197,4 +199,4 @@ div.wrapper{
 .modal-container .modal .header .close-btn{
     color: rgb(165, 2, 2);
     cursor: pointer;
-}
+} */

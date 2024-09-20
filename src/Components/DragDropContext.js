@@ -19,8 +19,19 @@ const DragDropContext = ({ todos, setTodos, deleteTodo, openEditModal }) => {
         setTodos(updatedTodos); // Update local state
     };
 
+    const [{ isOver }, drop] = useDrop({
+        accept: 'TASK',
+        drop: (item, monitor) => {
+            const hoverIndex = todos.length; // or some logic to determine where to insert
+            moveTodo(item.index, hoverIndex);
+        },
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        }),
+    });
+
     return (
-        <div className="todos-container mt-6 w-full max-w-md">
+        <div ref={drop} className={`todos-container mt-6 w-full max-w-md ${isOver ? 'bg-gray-200' : ''}`}>
             {todos.map((task, index) => (
                 <TodoItem
                     key={task.id}
