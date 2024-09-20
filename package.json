@@ -6,15 +6,17 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^5.3.3",
+    "camel-case": "^5.0.0",
     "firebase": "^8.10.1",
-    "postcss": "^8.4.14",
     "postcss-safe-parser": "^7.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.3.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.3.1",
     "react-icons-kit": "^1.3.1",
     "react-router-dom": "^5.3.4",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^1.1.1"
   },
   "scripts": {
@@ -40,5 +42,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
+    "autoprefixer": "^10.4.20",
+    "babel-loader": "^9.2.1",
+    "html-webpack-plugin": "^5.6.0",
+    "postcss": "^8.4.47",
+    "source-map-loader": "^5.0.0",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^3.4.12",
+    "webpack-dev-server": "^5.1.0"
   }
 }

@@ -1,55 +1,58 @@
-import React,{useState} from 'react'
-import {Link} from 'react-router-dom'
-import {auth} from '../Config/Config'
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { auth } from '../Config/Config';
 
-export const Login = (props) => {
+export const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState('');
+    const history = useHistory();
 
-    const [email, setEmail]=useState('');
-    const [password, setPassword]=useState('');
-
-    const [loginError, setLoginError]=useState('');
-
-    const handleLogin=(e)=>{
+    const handleLogin = (e) => {
         e.preventDefault();
-        auth.signInWithEmailAndPassword(email, password).then(()=>{
-            setEmail('');
-            setPassword('');
-            setLoginError('');
-            props.history.push('/');
-        }).catch(err=>setLoginError(err.message))
-    }
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                setEmail('');
+                setPassword('');
+                setLoginError('');
+                history.push('/'); // Redirect to home after login
+            })
+            .catch(err => setLoginError(err.message));
+    };
 
     return (
-        <div className='container'>
-            <br></br>
-            <br></br>
-            <h2>LOGIN HERE</h2>
-            <br></br>
-            <form autoComplete="off" className='form-group'
-            onSubmit={handleLogin}>
-                
-                <label>Enter Email</label>
-                <input type="email" className='form-control'
-                    required onChange={(e)=>setEmail(e.target.value)}
-                    value={email}
-                />
-                <br></br>
-                <label>Enter Password</label>
-                <input type="password" className='form-control'
-                    required onChange={(e)=>setPassword(e.target.value)}
-                    value={password}
-                />
-                <br></br>
-                <button type="submit" className='btn btn-success mybtn2'>
-                   LOGIN
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+            <h2 className="text-2xl font-bold mb-4">LOGIN HERE</h2>
+            <form autoComplete="off" className="bg-white p-6 rounded shadow-md w-96"
+                  onSubmit={handleLogin}>
+                <div className="mb-4">
+                    <label className="block text-gray-700">Enter Email</label>
+                    <input 
+                        type="email" 
+                        className="border border-gray-300 p-2 rounded w-full" 
+                        required 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        value={email} 
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700">Enter Password</label>
+                    <input 
+                        type="password" 
+                        className="border border-gray-300 p-2 rounded w-full" 
+                        required 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        value={password} 
+                    />
+                </div>
+                <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
+                    LOGIN
                 </button>
             </form>
-            {loginError&&<div className='error-msg'>
-                {loginError}
-            </div>}
-            
-            <span>Don't have an account? Create One
-            <Link to="signup"> here</Link></span>
+            {loginError && <div className="text-red-500 mt-4">{loginError}</div>}
+            <span className="mt-4">
+                Don't have an account? Create One <Link to="signup" className="text-blue-500">here</Link>
+            </span>
         </div>
-    )
-}
+    );
+};
